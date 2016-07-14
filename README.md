@@ -31,12 +31,12 @@ Android 日志简单打印小框架
 默认不输出到文件，需要输出到文件的话，请自己实现IRecordFile去输出，同事config的文件路径和文件名不能为空
 设置日志的输出到文件
         LogManager.setRecordFile(new IRecordFile() {
-            @Override
-            public void save(String dir, String fileName, String tag, String msg) {
+                @Override
+                public void save(String dir, String fileName, String tag, String msg) {
                 try {
-                    FileOperator.appendToFile(DateTimeUtil.datetimeToString(new Date(), null) + "  " + tag + " >> " + msg + "\n", dir, fileName);
+                        FileOperator.appendToFile(DateTimeUtil.datetimeToString(new Date(), null) + "  " + tag + " >> " + msg + "\n",dir, fileName);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                        e.printStackTrace();
                 }
-            }
+                }
         });
