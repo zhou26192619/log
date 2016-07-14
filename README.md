@@ -36,6 +36,7 @@ Android 日志简单打印小框架
                 @Override
                 public void save(String dir, String fileName, String tag, String msg) {
                         try {
+                                //你自己的输出流
                                 FileOperator.appendToFile(DateTimeUtil.datetimeToString(new Date(), null) + "  " + tag + " >> " + msg + "\n",dir, fileName);
                         } catch (IOException e) {
                                 e.printStackTrace();
