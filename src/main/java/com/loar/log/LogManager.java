@@ -74,6 +74,9 @@ public class LogManager {
     }
 
     public static void err(String tag, String head, Exception e) {
+        if (tag == null || head == null || e == null) {
+            return;
+        }
         if (config.isDevelop() || Config.Level.ERROR.ordinal() >= config.setLevel().ordinal()) {
             e.printStackTrace();
         }

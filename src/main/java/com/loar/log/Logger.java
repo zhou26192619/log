@@ -31,6 +31,10 @@ public class Logger {
      * @param msg
      */
     public void log(Config.Level level, String tag, String msg) {
+        if (tag == null || msg == null) {
+            tag = "logger";
+            msg += "打印的信息为空";
+        }
         if (config.isDevelop() || level.ordinal() >= config.setLevel().ordinal()) {
             //打印日志
             switch (level) {
