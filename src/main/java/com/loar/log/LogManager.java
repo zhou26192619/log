@@ -1,10 +1,5 @@
 package com.loar.log;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Date;
-
 /**
  * Created by Justsy on 2016/7/11.
  */
@@ -12,13 +7,7 @@ public class LogManager {
 
     private static final LogManager logManager = new LogManager();
     private static Config config;
-    private static final Logger rootLogger;
-    private static IRecordFile recordFile;
-
-    static {
-        getLogManager(config, null);
-        rootLogger = new Logger(logManager.config);
-    }
+    private static final Logger rootLogger = new Logger(new DefaultConfig());
 
     public static LogManager getLogManager() {
         return getLogManager(null, null);
@@ -30,18 +19,21 @@ public class LogManager {
         } else {
             LogManager.config = config;
         }
-        LogManager.recordFile = recordFile;
+        setRecordFile(recordFile);
         return logManager;
     }
 
     public static void setRecordFile(IRecordFile recordFile) {
-        LogManager.recordFile = recordFile;
-        rootLogger.setRecordFile(LogManager.recordFile);
+        LogManager.rootLogger.setRecordFile(recordFile);
+    }
+
+    public static void setCallback(LogCallback callback) {
+        LogManager.rootLogger.setCallback(callback);
     }
 
     public static void setConfig(Config config) {
         LogManager.config = config;
-        rootLogger.setConfig(LogManager.config);
+        LogManager.rootLogger.setConfig(LogManager.config);
     }
 
     public static Logger getRootLogger() {
@@ -52,17 +44,11 @@ public class LogManager {
         if (config == null) {
             config = new DefaultConfig();
         }
-        Logger logger = new Logger(config);
-        logger.setRecordFile(recordFile);
-        return logger;
+        return new Logger(config);
     }
 
     public static void info(String tag, String msg) {
         LogManager.getRootLogger().info(tag, msg);
-    }
-
-    public static void err(String tag, String msg) {
-        LogManager.getRootLogger().err(tag, msg);
     }
 
     public static void debug(String tag, String msg) {
@@ -73,23 +59,30 @@ public class LogManager {
         LogManager.getRootLogger().warn(tag, msg);
     }
 
-    public static void err(String tag, String head, Exception e) {
-        if (tag == null || head == null || e == null) {
-            return;
-        }
-        if (config.isDevelop() || Config.Level.ERROR.ordinal() >= config.setLevel().ordinal()) {
-            e.printStackTrace();
-        }
-        LogManager.getRootLogger().err(tag, head + " >> " + exceptionToString(e));
+    public static void info(String tag, String msg, String sensitiveMsg) {
+        LogManager.getRootLogger().info(tag, msg, sensitiveMsg);
     }
 
-    public static String exceptionToString(Exception e) {
+    public static void debug(String tag, String msg, String sensitiveMsg) {
+        LogManager.getRootLogger().debug(tag, msg, sensitiveMsg);
+    }
+
+    public static void warn(String tag, String msg, String sensitiveMsg) {
+        LogManager.getRootLogger().warn(tag, msg, sensitiveMsg);
+    }
+
+    public static void err(String tag, String msg, String sensitiveMsg) {
+        LogManager.getRootLogger().err(tag, msg, sensitiveMsg);
+    }
+
+    public static void err(String tag, String head, Exception e) {
         if (e == null) {
-            return "";
+            return;
         }
-        Writer result = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(result);
-        e.printStackTrace(printWriter);
-        return result.toString();
+        LogManager.getRootLogger().err(tag, head, LogManager.getRootLogger().exceptionToString(e));
+    }
+
+    public static void err(String tag, Exception e) {
+        LogManager.getRootLogger().err(tag, e);
     }
 }

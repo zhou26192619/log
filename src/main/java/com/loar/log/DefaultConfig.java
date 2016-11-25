@@ -20,6 +20,11 @@ public class DefaultConfig implements Config {
     }
 
     @Override
+    public String setDivision() {
+        return null;
+    }
+
+    @Override
     public Level setLevel() {
         return Level.INFO;
     }

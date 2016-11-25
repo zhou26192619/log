@@ -4,15 +4,17 @@ package com.loar.log;
  * Created by Justsy on 2016/7/11.
  */
 public interface Config {
-    String setFileDir();
+    String setFileDir();//日志目录
 
-    String setFileName();
+    String setFileName();//日志文件名
 
-    boolean isDevelop();
+    boolean isDevelop();//是否是开发模式
 
-    Level setLevel();
+    String setDivision();//分割符
 
-    public static enum Level {
+    Level setLevel();//输出日志等级
+
+    enum Level {
         ALL(0),
         DEBUG(1),
         INFO(2),
