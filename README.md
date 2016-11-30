@@ -52,7 +52,7 @@ Android 日志简单打印小框架 默认配置已经配置好了 使用logMana
             }
         });
         
- public static void info(String tag, String msg, String sensitiveMsg)
- tag 标记
- msg 打印信息 大于打印等级或者开发模式才会输出
- sensitiveMsg 敏感信息，只有在开发模式下才会打印
+ public static void info(String tag, String msg, String sensitiveMsg)\n
+ tag 标记\n
+ msg 打印信息 大于打印等级或者开发模式才会输出\n
+ sensitiveMsg 敏感信息，只有在开发模式下才会打印\n
